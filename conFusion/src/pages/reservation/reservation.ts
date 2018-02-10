@@ -3,7 +3,7 @@ import { IonicPage, NavController,
          NavParams, ViewController }  from 'ionic-angular';
 import { Validators, FormBuilder, 
         FormGroup }                   from '@angular/forms';
-import { FormControl } from '@angular/forms/src/model';
+import { FormControl }                from '@angular/forms/src/model';
 
 /**
  * Generated class for the ReservationPage page.

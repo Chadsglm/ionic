@@ -37,4 +37,10 @@ export class DishProvider {
                     .catch(error => { return this.processHTTPMsgService.handleError(error); });
   }
 
+  saveDish(dish: Dish): Observable<Dish> {
+    return  this.http.put(baseURL + 'dishes/'+ dish.id, dish )
+                    .map(res => { return this.processHTTPMsgService.extractData(res); })
+                    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
+
 }
