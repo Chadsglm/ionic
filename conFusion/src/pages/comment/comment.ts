@@ -4,8 +4,9 @@ import { IonicPage, NavController,
 import { Validators, FormBuilder, 
          FormGroup }                    from '@angular/forms';
 import { FormControl }                  from '@angular/forms/src/model';
-import { DishProvider } from '../../providers/dish/dish';
-import { Dish } from '../../shared/dish';
+import { DishProvider }                 from '../../providers/dish/dish';
+import { Dish }                         from '../../shared/dish';
+import { Comment }                      from '../../shared/comment';
 
 /**
  * Generated class for the CommentPage page.
@@ -22,6 +23,8 @@ import { Dish } from '../../shared/dish';
 export class CommentPage {
   dish: Dish;
   commentForm: FormGroup;
+  comment: Comment;
+
 
   constructor(private dishProvider: DishProvider,
               private params: NavParams,
@@ -30,19 +33,12 @@ export class CommentPage {
               public viewCtrl: ViewController,
               private formBuilder: FormBuilder) {
     
-    this.getDish(params.get('dishId'));
     this.commentForm = this.formBuilder.group({
       author: ['', Validators.required ],
       rating: [5 , Validators.required ],
       comment: ['', Validators.required ],
       date: new Date()
     });
-  }
-
-  getDish(id: number) {
-    this.dishProvider.getDish(id).subscribe(dish => {
-      this.dish = dish;
-    })
   }
 
   ionViewDidLoad() { }
@@ -52,14 +48,10 @@ export class CommentPage {
   }
 
   onSubmit() {
-    const comment = this.commentForm.value;
-    comment.date = new Date().toISOString();
-    this.dish.comments.push(comment);
-    this.dishProvider.saveDish(this.dish)
-    .subscribe(result => { 
-      this.viewCtrl.dismiss(result);
-    })
-
+    this.comment = this.commentForm.value;
+    this.comment.date = new Date().toISOString();
     
+    this.dish.comments.push(this.comment);
+    this.dismiss();
   }
 }

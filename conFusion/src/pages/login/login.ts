@@ -41,7 +41,6 @@ export class LoginPage {
                     console.log('user not defined');
                 });
           
-          
                 this.loginForm = this.formBuilder.group({
                   username: ['', Validators.required],
                   password: ['',Validators.required],

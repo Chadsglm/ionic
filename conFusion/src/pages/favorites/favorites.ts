@@ -6,6 +6,7 @@ import { IonicPage, NavController,
 
 import { FavoriteProvider }           from '../../providers/favorite/favorite';
 import { Dish }                       from '../../shared/dish';
+import { DishProvider } from '../../providers/dish/dish';
          
 
 /**
@@ -21,8 +22,10 @@ import { Dish }                       from '../../shared/dish';
   templateUrl: 'favorites.html',
 })
 export class FavoritesPage {
-  favorites: Dish[];
+  favorites: Dish[] = [];
   errMess: string;
+  dishes: Dish[];
+  favoriteDishIds: number[];
 
   constructor( public navCtrl: NavController, 
                public navParams: NavParams,
@@ -30,13 +33,34 @@ export class FavoritesPage {
                public toastCtrl: ToastController,
                private loadingCtrl: LoadingController,
                private alertCtrl: AlertController,
+               private dishservice: DishProvider,
                @Inject('BaseURL') private BaseURL) {
   }
 
   ngOnInit() {
     this.favoriteservice.getFavorites()
-        .subscribe(favorites => this.favorites = favorites,
-        errmess => this.errMess = errmess);
+        .then(favorites => {
+          this.favoriteDishIds = favorites;
+          this.dishservice.getDishes().subscribe(datas => {
+            this.dishes = datas;
+            this.setFavorites();
+          })
+         
+        })
+        .catch(err => console.log(err));
+  }
+
+  setFavorites() {
+    if(this.favoriteDishIds.length === 0) {
+      this.favorites = [];
+    }
+    this.favoriteDishIds.forEach(element => {
+      this.dishes.forEach(data => {
+        if(element === data.id) {
+          this.favorites.push(data);
+        }
+      })
+    });
   }
 
   ionViewDidLoad() { }
@@ -65,13 +89,14 @@ export class FavoritesPage {
               duration: 3000});
             loading.present();
             this.favoriteservice.deleteFavorite(id)
-                .subscribe(favorites => {this.favorites = favorites; 
-                                              loading.dismiss(); 
-                                              toast.present(); 
-                                        } ,
-                errmess =>{ this.errMess = errmess; 
-                                 loading.dismiss(); 
-                          });
+                .then(favorites => { 
+                  this.favorites = [];
+                  this.favoriteDishIds = favorites;
+                  this.setFavorites();
+                  loading.dismiss(); 
+                  toast.present(); 
+                })
+                .catch(err => console.log(err));
           }
         }
       ]

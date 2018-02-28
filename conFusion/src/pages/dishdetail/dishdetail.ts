@@ -35,7 +35,7 @@ export class DishdetailPage {
               @Inject('BaseURL') private BaseURL) {
 
     this.dish = navParams.get('dish');
-    this.updateDetailsView();
+    // this.updateDetailsView();
   }
 
   updateDetailsView() {
@@ -51,21 +51,25 @@ export class DishdetailPage {
 
   addToFavorites() {
     console.log('Adding to Favorites', this.dish.id);
-    this.favorite = this.favoriteservice.addFavorite(this.dish.id);
-
-    this.toastCtrl.create({
-      message: 'Dish ' + this.dish.id + ' added as favorite successfully',
-      position: 'middle',
-      duration: 3000}).present();
+    this.favoriteservice.addFavorite(this.dish.id)
+        .then(res => {
+          this.favorite = !this.favorite;
+          this.toastCtrl.create({
+            message: 'Dish ' + this.dish.id + ' added as favorite successfully',
+            position: 'middle',
+            duration: 3000}).present();
+        })
+        .catch(err =>{
+          console.log('have a anymistake', err);
+        });
   }
 
   openComment() {
-    let modal = this.modalCtrl.create(CommentPage, { dishId: this.dish.id });
-    modal.onDidDismiss(data => {
-      this.dish = data;
-      this.updateDetailsView();
-    });
+    let modal = this.modalCtrl.create(CommentPage);
     modal.present();
+    modal.onDidDismiss(comment => 
+                        this.dish.comments.push(comment.value)
+                      );
   }
 
   openMenu() {

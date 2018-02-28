@@ -1,8 +1,13 @@
-import { Http, Response }       from '@angular/http';
-import { Injectable }           from '@angular/core';
-import { Dish }                 from '../../shared/dish';
-import { Observable }           from 'rxjs/Observable';
-import { DishProvider }         from '../dish/dish';
+import { Http, Response }                     from '@angular/http';
+import { Injectable }                         from '@angular/core';
+import { IonicPage, NavController, 
+         NavParams, ViewController }          from 'ionic-angular';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Storage }                            from '@ionic/storage';
+
+import { Dish }                               from '../../shared/dish';
+import { Observable }                         from 'rxjs/Observable';
+import { DishProvider }                       from '../dish/dish';
 
 /*
   Generated class for the FavoriteProvider provider.
@@ -10,16 +15,55 @@ import { DishProvider }         from '../dish/dish';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
+
 @Injectable()
 export class FavoriteProvider {
 
   favorites: Array<any>;
 
   constructor(public http: Http,
-              private dishservice: DishProvider) {
-    this.favorites = [];
+              private dishservice: DishProvider, 
+              private storage: Storage) {
+      this.storage.get('favorites').then(res => {this.favorites = res;});
   }
 
+  getFavorites() {
+    return this.storage.get('favorites');
+  }
+  
+  isFavorite(id) {
+    return this.favorites.some(el => el === id);
+  }
+
+  deleteByValue(array, elm) {
+     const arr = [];
+     array.forEach(element => {
+       if(element != elm) {
+         arr.push(element);
+       }
+     });
+     return arr;
+  }
+
+  deleteFavorite(id){ 
+    return this.storage.get('favorites').then(favs => {
+      const rest = this.deleteByValue(favs, id);
+      return this.storage.set('favorites', rest).then(() => {
+        return this.getFavorites();
+      })
+    }); 
+  }
+  
+  addFavorite(id){
+    if (!this.isFavorite(id)) {
+      this.favorites.push(id);
+      console.log('favorites', this.favorites);
+      return this.storage.set('favorites', this.favorites);
+    } 
+    return Promise.reject('this id has already been saved!'); 
+  }
+/*
   addFavorite(id: number): boolean {
     if (!this.isFavorite(id))
       this.favorites.push(id);
@@ -48,4 +92,5 @@ export class FavoriteProvider {
       return Observable.throw('Deleting non-existant favorite' + id);
     }
   }
+  */
 }

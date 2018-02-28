@@ -28,7 +28,6 @@ export class ProcessHttpmsgProvider {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error('Burada', errMsg);
     return Observable.throw(errMsg);
   }
 }
