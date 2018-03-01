@@ -35,7 +35,7 @@ export class DishdetailPage {
               @Inject('BaseURL') private BaseURL) {
 
     this.dish = navParams.get('dish');
-    // this.updateDetailsView();
+    this.updateDetailsView();
   }
 
   updateDetailsView() {
