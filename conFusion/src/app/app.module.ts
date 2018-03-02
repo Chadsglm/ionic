@@ -19,6 +19,9 @@ import { LoginPage }                    from '../pages/login/login';
 import { StatusBar }                    from '@ionic-native/status-bar';
 import { SplashScreen }                 from '@ionic-native/splash-screen';
 import { LocalNotifications }           from '@ionic-native/local-notifications';
+import { EmailComposer }                from '@ionic-native/email-composer';
+import { SocialSharing }                from '@ionic-native/social-sharing';
+
 import { DishProvider }                 from '../providers/dish/dish';
 import { LeaderProvider }               from '../providers/leader/leader';
 import { PromotionProvider }            from '../providers/promotion/promotion';
@@ -69,6 +72,8 @@ import { baseURL }                      from '../shared/baseurl';
     ProcessHttpmsgProvider,
     FavoriteProvider,
     LocalNotifications,
+    EmailComposer,
+    SocialSharing,
     { provide: 'BaseURL', useValue: baseURL }
   ]
 })

@@ -48,10 +48,12 @@ export class CommentPage {
   }
 
   onSubmit() {
-    this.comment = this.commentForm.value;
-    this.comment.date = new Date().toISOString();
-    
-    this.dish.comments.push(this.comment);
-    this.dismiss();
+    const comment = this.commentForm.value;
+    comment.date = new Date().toISOString();
+    this.dish.comments.push(comment);
+    this.dishProvider.saveDish(this.dish)
+    .subscribe(result => { 
+      this.viewCtrl.dismiss(result);
+    })
   }
 }

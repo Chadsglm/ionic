@@ -25,7 +25,7 @@ export class FavoriteProvider {
               private dishservice: DishProvider, 
               private storage: Storage,
               private localNotifications: LocalNotifications) {
-      this.storage.get('favorites').then(res => {this.favorites = res;});
+      this.storage.get('favorites').then(res => {this.favorites = res || [];});
   }
 
   getFavorites() {

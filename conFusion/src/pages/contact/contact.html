@@ -16,9 +16,9 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
   <ion-card>
-    <ion-card-header color="primary-dark">
+    <ion-card-header color="primary">
       Location Information
     </ion-card-header>
     <ion-card-content>
@@ -36,15 +36,15 @@
       </ion-list>
     </ion-card-content>
 
-    <ion-row no-padding>
-      <ion-col text-left>
-        <button ion-button clear small color="primary-dark" icon-start>
+    <ion-row >
+      <ion-col>
+        <button ion-button icon-left clear small>
           <ion-icon ios="ios-call" md="md-call"></ion-icon>
           CALL
         </button>
       </ion-col>
       <ion-col text-center>
-        <button ion-button clear small color="primary-dark" icon-start>
+        <button ion-button icon-left clear small (click)="sendEmail()">
           <ion-icon ios="ios-mail" md="md-mail"></ion-icon>
           EMAIL
         </button>
