@@ -31,8 +31,8 @@ export class CommentPage {
               public navCtrl: NavController, 
               public navParams: NavParams,
               public viewCtrl: ViewController,
-              private formBuilder: FormBuilder) {
-    
+              private formBuilder: FormBuilder) { 
+    this.dish = params.data;
     this.commentForm = this.formBuilder.group({
       author: ['', Validators.required ],
       rating: [5 , Validators.required ],

@@ -67,11 +67,11 @@ export class DishdetailPage {
   }
 
   openComment() {
-    let modal = this.modalCtrl.create(CommentPage);
-    modal.onDidDismiss(comment => {
-      this.dish.comments.push(comment)
-    }
-    );
+    let modal = this.modalCtrl.create(CommentPage, this.dish);
+    modal.onDidDismiss(dish => {
+      this.dish = dish;
+      this.updateDetailsView();
+    });
     modal.present();
   }
 
