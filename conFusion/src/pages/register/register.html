@@ -26,7 +26,10 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <button ion-button small (click)="getPicture()">Take Picture</button>
+          <button ion-button icon-left small (click)="getPicture()">Take Picture</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left small (click)="getFromLibrary()">Get From Library</button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -58,4 +61,7 @@
     </ion-item>
     <button ion-button type="submit" [disabled]="!registerForm.valid">Register</button>
   </form>
+  <p *ngFor="let image of libraryImages">
+     {{image | json}}
+  </p>
 </ion-content>
