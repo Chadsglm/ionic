@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Component }                          from '@angular/core';
+import { IonicPage, NavController, 
+         NavParams, ViewController }          from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { ImagePicker }                  from '@ionic-native/image-picker';
+import { Camera, CameraOptions }              from '@ionic-native/camera';
+import { ImagePicker }                        from '@ionic-native/image-picker';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -20,11 +21,12 @@ export class RegisterPage {
   registerForm: FormGroup;
   image: string = 'assets/images/logo.png';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private viewCtrl: ViewController,
-    private imagePicker: ImagePicker,
-    private camera: Camera,
-    private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private viewCtrl: ViewController,
+              private imagePicker: ImagePicker,
+              private camera: Camera,
+              private formBuilder: FormBuilder) {
 
       this.registerForm = this.formBuilder.group({
         firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
@@ -58,27 +60,32 @@ export class RegisterPage {
     };
     
     this.camera.getPicture(options)
-      .then((imageData) => {
-        this.image = imageData;
-      },
-      (err) => { console.log('Error Obtaning picture');
-      });
+        .then((imageData) => {
+          this.image = imageData;
+        },
+        (err) => { console.log('Error Obtaning picture');
+        });
   }
 
   getFromLibrary(){
-    let options = {
-      maximumImagesCount: 8,
-      width: 500,
-      height: 500,
-      quality: 75
-    }
-  
-    this.imagePicker.getPictures(options).then(
-      file_uris => {
-        this.libraryImages = file_uris;
-      },
-      err => console.log('uh oh')
-    );
+    const options: CameraOptions = {
+      quality: 100,
+      targetHeight:100,
+      targetWidth: 100,
+      correctOrientation: true,
+      allowEdit: true,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+
+    this.camera.getPicture(options)
+        .then((imageData) => {
+          this.image = imageData;
+        }, 
+        (err) => { console.log("Error obtaining picture from library");
+        });
   }
 
   onSubmit(){

@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
+    "server": "cd ../json-server/ json-server --watch db.json -d 2000",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
@@ -81,7 +82,8 @@
       "mx.ferreyra.callnumber": {},
       "cordova-plugin-photo-library": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
-      }
+      },
+      "com.synconset.imagepicker": {}
     },
     "platforms": [
       "ios"

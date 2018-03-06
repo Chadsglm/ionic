@@ -95,4 +95,5 @@
     </plugin>
     <engine name="ios" spec="4.5.4" />
     <allow-navigation href="http://169.254.57.170:8100" />
+    <plugin name="com.synconset.imagepicker" spec="~2.1.8" />
 </widget>
